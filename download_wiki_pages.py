@@ -50,6 +50,7 @@ if __name__ == "__main__":
     while True:
         # TODO: Add a logic to end this when it reaches the end of the pages
         # TODO: Maybe respect a little and add sleep time?
+        # TODO: This gets 1990 pages, wiki says 1992. Why?
         main_page_html = get_page(main_page)
         article_pages_temp = find_pages(main_page_html)
         old_main_page = main_page
