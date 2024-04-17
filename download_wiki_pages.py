@@ -1,4 +1,5 @@
 import json
+import time
 import requests
 from bs4 import BeautifulSoup
 
@@ -61,7 +62,6 @@ if __name__ == "__main__":
 
         while True:
             # TODO: Add a logic to end this when it reaches the end of the pages
-            # TODO: Maybe respect a little and add sleep time?
             # TODO: This gets 1990 pages, wiki says 1992. Why?
             main_page_html = get_page(main_page)
             article_pages_temp = find_pages(main_page_html)
@@ -78,6 +78,7 @@ if __name__ == "__main__":
             print(f"#" * 50)
 
             i += 1
+            time.sleep(0.5)
 
     if DOWNLOAD_ARTICLE_PAGES:
         article_names = read_json_as_dict("data/article_pages.json")
@@ -89,7 +90,7 @@ if __name__ == "__main__":
         del article_names
 
         for i, page in enumerate(article_pages):
-            if i < 269:
+            if i < 1886:
                 continue
             print(f"#" * 50)
             print(f"Downloading page {i} of {len(article_pages)}: {page}")
@@ -98,3 +99,4 @@ if __name__ == "__main__":
             save_html(f"data/article_pages/{page}.html", html_content)
             print(f"Page {i} done!")
             print(f"#" * 50)
+            time.sleep(0.5)
