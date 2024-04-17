@@ -90,8 +90,6 @@ if __name__ == "__main__":
         del article_names
 
         for i, page in enumerate(article_pages):
-            if i < 1886:
-                continue
             print(f"#" * 50)
             print(f"Downloading page {i} of {len(article_pages)}: {page}")
             html_content = get_page(BASE_URL + page)
