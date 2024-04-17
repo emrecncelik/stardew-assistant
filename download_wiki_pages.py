@@ -2,8 +2,6 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-# TODO: Download html content of all pages extracted
-
 GET_ARTICLE_NAMES = False
 DOWNLOAD_ARTICLE_PAGES = True
 BASE_URL = "https://stardewvalleywiki.com"
