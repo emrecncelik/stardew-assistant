@@ -1,3 +1,4 @@
+import os
 import json
 import time
 import requests
@@ -5,6 +6,7 @@ from bs4 import BeautifulSoup
 
 GET_ARTICLE_NAMES = False
 DOWNLOAD_ARTICLE_PAGES = True
+OUTPUT_DIR = "./data/article_pages"
 BASE_URL = "https://stardewvalleywiki.com"
 
 
@@ -54,7 +56,6 @@ def read_html(filename: str) -> BeautifulSoup:
 
 
 if __name__ == "__main__":
-
     if GET_ARTICLE_NAMES:
         i = 0
         main_page = "https://stardewvalleywiki.com/mediawiki/index.php?title=Special:AllPages&hideredirects=1"
@@ -69,7 +70,9 @@ if __name__ == "__main__":
             main_page = BASE_URL + find_next_page(main_page_html)
 
             article_pages[old_main_page] = article_pages_temp
-            save_dict_as_json("data/article_pages.json", article_pages)
+            save_dict_as_json(
+                os.path.join(OUTPUT_DIR, "article_pages.json"), article_pages
+            )
 
             print(f"#" * 50)
             print(f"Page {i} done!")
@@ -81,7 +84,9 @@ if __name__ == "__main__":
             time.sleep(0.5)
 
     if DOWNLOAD_ARTICLE_PAGES:
-        article_names = read_json_as_dict("data/article_pages.json")
+        article_names = read_json_as_dict(
+            os.path.join(OUTPUT_DIR, "article_pages.json")
+        )
         article_pages = []
 
         for a in article_names.values():
@@ -94,7 +99,19 @@ if __name__ == "__main__":
             print(f"Downloading page {i} of {len(article_pages)}: {page}")
             html_content = get_page(BASE_URL + page)
             page = page.replace("/", "")
-            save_html(f"data/article_pages/{page}.html", html_content)
+            save_html(os.path.join(OUTPUT_DIR, f"{page}.html"), html_content)
             print(f"Page {i} done!")
             print(f"#" * 50)
             time.sleep(0.5)
+
+        article_pages = read_json_as_dict(
+            os.path.join(OUTPUT_DIR, "article_pages.json")
+        )
+
+        pages = []
+        for k, v in article_pages.items():
+            pages.extend(v)
+
+        print(f"Total pages: {len(pages)}")
+        print(f"First 10: {pages[:10]}")
+        print(f"Last 10: {pages[-10:]}")
