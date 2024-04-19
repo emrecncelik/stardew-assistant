@@ -74,11 +74,11 @@ if __name__ == "__main__":
                 os.path.join(OUTPUT_DIR, "article_pages.json"), article_pages
             )
 
-            print(f"#" * 50)
+            print(f"#" * 100)
             print(f"Page {i} done!")
             print(f"First 10: " + str(article_pages_temp[:10]))
             print(f"Last 10: " + str(article_pages_temp[-10:]))
-            print(f"#" * 50)
+            print(f"#" * 100)
 
             i += 1
             time.sleep(0.5)
@@ -95,14 +95,16 @@ if __name__ == "__main__":
         del article_names
 
         for i, page in enumerate(article_pages):
-            print(f"#" * 50)
             print(f"Downloading page {i} of {len(article_pages)}: {page}")
             html_content = get_page(BASE_URL + page)
             page = page.replace("/", "")
             save_html(os.path.join(OUTPUT_DIR, f"{page}.html"), html_content)
             print(f"Page {i} done!")
-            print(f"#" * 50)
+            print(f"#" * 100)
             time.sleep(0.5)
+
+        print(f"#" * 100)
+        print(f"Downloaded {len(article_pages)} pages!")
 
         article_pages = read_json_as_dict(
             os.path.join(OUTPUT_DIR, "article_pages.json")
